@@ -139,7 +139,7 @@ class Rain24h(StdService):
             self.total_rain += pkt['rain']
             self.debit_list.append(FutureDebit(timestamp = one_day_later, amount = pkt['rain']))
             log.debug('found rain of %f, adding to rain24h.' % pkt['rain'])
-            
+
         # Debit and remove any debits that have matured.
         now = time.time()
         del_count: int = 0
