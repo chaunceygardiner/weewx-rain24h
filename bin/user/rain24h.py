@@ -141,10 +141,9 @@ class Rain24h(StdService):
             log.debug('found rain of %f, adding to rain24h.' % pkt['rain'])
 
         # Debit and remove any debits that have matured.
-        now = time.time()
         del_count: int = 0
         for debit in self.debit_list:
-            if to_float(debit.timestamp) <= now:
+            if to_float(debit.timestamp) <= pkt_time:
                 log.debug('debiting rain by %f' % debit.amount)
                 del_count += 1
                 self.total_rain -= debit.amount
