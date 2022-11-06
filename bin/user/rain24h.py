@@ -111,6 +111,13 @@ class Rain24h(StdService):
             weeutil.logger.log_traceback(log.error, "    ****  ")
 
     @staticmethod
+    def massage_near_zero(val: float)-> float:
+        if val > -0.0000000001 and val < 0.0000000001:
+            return 0.0
+        else:
+            return val
+
+    @staticmethod
     def get_archive_packets(dbm, archive_columns: List[str],
             earliest_time: int) -> List[Dict[str, Any]]:
         packets = []
@@ -158,5 +165,5 @@ class Rain24h(StdService):
             del self.debit_list[0]
 
         # Add rain24h to packet
-        pkt['rain24h'] = self.total_rain
+        pkt['rain24h'] = Rain24h.massage_near_zero(self.total_rain)
         log.debug('new_loop: Added pkt[rain24h] of %f' % self.total_rain)
